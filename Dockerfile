@@ -6,16 +6,17 @@ WORKDIR /usr/local/app
 
 FROM base AS builder
 
-ARG NODE_ENV=prod
-ENV NODE_ENV=${NODE_ENV}
+ARG NODE_ENV=dev
+ENV NODE_ENV=$NODE_ENV
 
 # install packages
 COPY package*.json ./
-RUN if [ "$NODE_ENV" = "prod" ]; then \
-      npm ci --only=production; \
-    else \
-      npm ci; \
-    fi
+RUN echo "Installing with NODE_ENV=$NODE_ENV" && \
+  if [ "$NODE_ENV" = "production" ]; then \
+    npm ci --omit=dev; \
+  else \
+    npm ci; \
+  fi
 
 # bundle javascript / css
 COPY src/ src/

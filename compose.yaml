@@ -53,6 +53,9 @@ services:
     command: npm run dev
     volumes:
       - ./:/usr/local/app
+      # this makes sure that the local directory node_modules don't override
+      # the container one (that are created during npm run build)
+      - /usr/local/app/node_modules
     depends_on:
       migrations:
         condition: service_started
