@@ -107,8 +107,9 @@ Your submission will be evaluated based these criteria in order of importance:
 
 ## Other Documentation
 
-For architectural decisions, see the `architecture-decisions.md` file.
-For a brief architecture overview, see the `architecture-overview.md` file.
+For architectural decisions: see the `architecture-decisions.md` file.
+
+For a brief architecture overview: see the `architecture-overview.md` file.
 
 For setup and requirements, see the below sections.
 
@@ -120,11 +121,10 @@ For instructions on running the application, see the next section.
 Before you start the application, you will need to create an env file.
 See the [section on env files](#env-files) for details.
 
-You will also need to:
-
-1. Have [Docker](https://www.docker.com/) installed and running
+You will also need to have [Docker](https://www.docker.com/) installed and running
 
 **NOTE**
+
 If you plan to run any of the automated testing steps, you'll need to install npm packages via:
 
 ```bash
@@ -187,7 +187,9 @@ npm run cy:test
 ```
 
 **NOTE**
+
 The docker container compose starts redis, but does not start any workers.
+
 The reasoning for this is that in order to run end-to-end tests in a reasonable time period, cypress tasks needs control over the scheduling of when certain worker tasks would run.
 
 
@@ -196,23 +198,23 @@ The reasoning for this is that in order to run end-to-end tests in a reasonable 
 The following is the .env file structure.
 There should be three .env files as follows:
 
-- .env.development: this is used whenever the `NODE_ENV` is set to `dev`
-- .env.test: this is used whenever the `NODE_ENV` is set to `test`
-- .env.production: this is used whenever the `NODE_ENV` is set to `prod`
+- **.env.development**: this is used whenever the `NODE_ENV` is set to `dev`
+- **.env.test**: this is used whenever the `NODE_ENV` is set to `test`
+- **.env.production**: this is used whenever the `NODE_ENV` is set to `prod`
 
 The environmental variable file should have the following variables:
 
-- DB_HOST: the host to use for the database (ex: `localhost`)
-- DB_PORT: the port to use for the database (ex: `5432`)
-- DB_USER: the user to login to the database as (ex: `user`)
-- DB_PASSWORD: the password to login to the database with (ex: `user password`). This should be a secure, hard-to-guess value.
-- DB_NAME: the name of the database to connect to (ex: `waitlist`)
-- CHECKIN_EXPIRY_SECONDS: sets how long (in seconds) the client has to check-in from the waitlist once they've been dequeued (ex: `60`)
-- MAX_SEATS: sets how many people can be seated at once from the waitlist (ex: `10`)
-- SERVICE_TIME_SECONDS: sets that a party that has been seated has, per-person, before they are removed from the database. For example, if set to `3`, then a party size of 5 would have 15 seconds from the time that they're seated to the time that they're removed from the database (and unseated)
-- COOKIE_MAX_AGE_SECONDS: the max age of a cookie in seconds (ex: `86400`)
-- SESSION_KEY: the session key used to sign cookie sessions (ex: `secret-session-key`). This should be a secure, hard-to-guess value.
-- REDIS_PORT: the port the redis service is set to run on (ex: `6379`)
+- **DB_HOST**: the host to use for the database (ex: `localhost`)
+- **DB_PORT**: the port to use for the database (ex: `5432`)
+- **DB_USER**: the user to login to the database as (ex: `user`)
+- **DB_PASSWORD**: the password to login to the database with (ex: `user password`). This should be a secure, hard-to-guess value.
+- **DB_NAME**: the name of the database to connect to (ex: `waitlist`)
+- **CHECKIN_EXPIRY_SECONDS**: sets how long (in seconds) the client has to check-in from the waitlist once they've been dequeued (ex: `60`)
+- **MAX_SEATS**: sets how many people can be seated at once from the waitlist (ex: `10`)
+- **SERVICE_TIME_SECONDS**: sets that a party that has been seated has, per-person, before they are removed from the database. For example, if set to `3`, then a party size of 5 would have 15 seconds from the time that they're seated to the time that they're removed from the database (and unseated)
+- **COOKIE_MAX_AGE_SECONDS**: the max age of a cookie in seconds (ex: `86400`)
+- **SESSION_KEY**: the session key used to sign cookie sessions (ex: `secret-session-key`). This should be a secure, hard-to-guess value.
+- **REDIS_PORT**: the port the redis service is set to run on (ex: `6379`)
 
 Below is an example file:
 
@@ -236,8 +238,8 @@ REDIS_PORT=6379
 
 For example, in the `compose.yaml`, the following environmental variables need to be matched in your .env.development file:
 
-- POSTGRES_USER: maps to DB_USER
-- POSTGRES_PASSWORD: maps to DB_PASSWORD
-- POSTGRES_DB: maps to DB_NAME
+- **POSTGRES_USER**: maps to `DB_USER`
+- **POSTGRES_PASSWORD**: maps to `DB_PASSWORD`
+- **POSTGRES_DB**: maps to `DB_NAME`
 
 And in your associated .env file, you should also make sure that the ports line up with the service ports as described in the compose file (ex: REDIS_PORT should match what is in the compose file).
