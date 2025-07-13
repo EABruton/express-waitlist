@@ -1,0 +1,26 @@
+.centered-content {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 16px 0;
+}
+
+.main--centered {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.3);
+  max-width: min(95%, 550px);
+  padding: 12px 16px;
+  width: 100%;
+}
+
+.main--primary {
+  background-color: var(--color-primary);
+  color: var(--color-accent);
+}
+
+@media (min-width: 450px) {
+  .main--centered {
+    padding: 36px 48px;
+  }
+}

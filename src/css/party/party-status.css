@@ -1,0 +1,63 @@
+.lookup-error__text,
+.event-error__text {
+  margin: 0;
+}
+
+.error-notice {
+  margin-bottom: 12px;
+}
+
+.check-in__notice {
+  text-align: center;
+}
+
+.check-in__warning {
+  color: var(--color-warn);
+  font-weight: 600;
+}
+
+#check-in-expiration {
+  font-weight: 600;
+  font-size: var(--font-size--large);
+}
+
+.queue-position__text,
+.queue-position__heading,
+.leave-queue-success,
+.check-in__expiration {
+  text-align: center;
+}
+
+#queue-position-text {
+  font-weight: 600;
+  font-size: var(--font-size-heading--secondary);
+}
+
+.no-party-id__link,
+.check-in__button,
+.checkin-expired__link,
+.queue-position__button,
+.waitlist-link,
+.event-error__link {
+  display: block;
+  margin: auto;
+  width: fit-content;
+}
+
+.checkin-success__text {
+  text-align: center;
+  font-weight: 600;
+}
+
+#party-id {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.notice-text {
+  text-align: center;
+}
+
+#party-id-text {
+  font-weight: 600;
+}

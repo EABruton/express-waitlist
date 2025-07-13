@@ -1,0 +1,164 @@
+<main class="main--centered main--primary" id="waitlist-status-page">
+  <h1 class="heading heading--primary">Check Your Waitlist Status</h1>
+
+  {{#if partyID}}
+    <div id="party-id-container" class="notice-text">
+      <div class="notice-text__text">
+        Your party ID:
+      </div>
+      <strong class="notice-text__text" id="party-id-text">{{partyID}}</strong>
+    </div>
+  {{/if}}
+
+  {{#if lookupError}}
+    <div id="lookup-error" class="lookup-error" role="alert">
+      <div class="error-notice error-notice--list">
+        <p class="lookup-error__text">
+          Sorry, it looks like there was an error getting your party information
+          from the server!
+        </p>
+        <p class="lookup-error__text">
+          Please refresh the page, or contacting an admin.
+        </p>
+      </div>
+    </div>
+  {{/if}}
+
+  <div id="checkin-form-placeholder"></div>
+  <div id="checkin-expired-placeholder"></div>
+  <div id="event-error-placeholder"></div>
+  <div id="no-party-notice-placeholder"></div>
+  <div id="checkin-success-placeholder"></div>
+
+  {{#if isQueued}}
+    <article id="queue-position" class="queue-position">
+      <h2 class="queue-position__heading">Your Position in Queue:</h2>
+      <p
+        class="queue-position__text"
+        id="queue-position-text"
+        data-testid="queue-position-text"
+      >
+        {{initialQueuePosition}}
+      </p>
+      <button
+        id="leave-queue-button"
+        data-testid="leave-queue-button"
+        class="queue-position__button button button--secondary--inverted"
+      >
+        Leave Queue
+      </button>
+    </article>
+  {{/if}}
+
+  {{#if isSeated}}
+    <script>
+      window.isSeated = true;
+    </script>
+    <div class="checkin-success">
+      <p class="checkin-success__text" data-testid="checkin-successful-text">
+        You have successfully checked in!
+      </p>
+      <p class="checkin-success__text">
+        Please wait for your party to be seated and have your party ID ready
+        when you are called.
+      </p>
+    </div>
+  {{/if}}
+
+  <template id="event-error-template">
+    <div id="event-error" class="event-error" role="alert">
+      <div class="error-notice error-notice--list">
+        <p class="event-error__text">
+          Sorry, it looks like there was an error getting your waitlist
+          information from the server!
+        </p>
+        <p class="event-error__text">
+          Please either refresh the page, or click the below button to return go
+          to the waitlist page and join the waitlist
+        </p>
+      </div>
+      <a
+        href="/party/new"
+        class="button button--secondary--inverted event-error__link"
+      >Join the Waitlist</a>
+    </div>
+  </template>
+
+  <template id="checking-in-expired-template">
+    <article id="checkin-expired" class="checkin-expired">
+      <p class="checkin-expired__text" data-testid="checkin-expired-notice">
+        Sorry, it looks like you did not check in.
+      </p>
+      <p class="checkin-expired__text">
+        Please click the below link if you would like to join the waitlist
+        again.
+      </p>
+      <a
+        href="/party/new"
+        data-testid="checkin-expired-link"
+        class="button button--secondary--inverted checkin-expired__link"
+      >Join the Waitlist</a>
+    </article>
+  </template>
+
+  <template id="check-in-template">
+    <div id="check-in" class="check-in__wrapper">
+      <p class="check-in__notice">You may now check in!</p>
+      <form class="check-in__form" data-partyid="{{id}}" method="POST">
+        <button
+          class="button button--secondary--inverted check-in__button"
+          type="submit"
+          id="check-in-button"
+          data-testid="check-in-button"
+          data-status="active"
+        >
+          <span class="button-text--active">Check in</span>
+          <span class="button-text--pending">Submitting...</span>
+          <span class="button-text--error">Something went wrong!</span>
+        </button>
+      </form>
+      <p class="check-in__warning">
+        Please note that you have a limited time to check in. If you do not
+        check in within the allotted time, you will be removed from the
+        waitlist.
+      </p>
+      <p class="check-in__expiration">
+        You have
+        <span id="check-in-expiration"></span>
+        to check in.
+      </p>
+    </div>
+  </template>
+
+  <template id="no-party-id-template">
+    <div class="no-party-id">
+      <p class="no-party-id__text">
+        Sorry, it does not look like you have have joined the waitlist yet.
+      </p>
+      <p class="no-party-id__text">
+        Please click the below button to return go to the waitlist page and join
+        the waitlist
+      </p>
+      <a
+        href="/party/new"
+        class="button button--secondary--inverted no-party-id__link"
+      >Join the Waitlist</a>
+    </div>
+  </template>
+
+  <template id="checkin-success-template">
+    <div class="checkin-success">
+      <p class="checkin-success__text" data-testid="checkin-successful-text">
+        You have successfully checked in!
+      </p>
+      <p class="checkin-success__text">
+        Please wait for your party to be seated and have your party ID ready
+        when you are called.
+      </p>
+    </div>
+  </template>
+
+  <noscript>
+    <p>You need JavaScript enabled to view your queue position</p>
+  </noscript>
+</main>

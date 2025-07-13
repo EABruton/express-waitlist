@@ -1,0 +1,82 @@
+@import url("./globals/buttons.css");
+@import url("./globals/forms.css");
+@import url("./globals/layout.css");
+@import url("./globals/errors.css");
+
+:root {
+  --color-primary: #27548a;
+  --color-secondary: #dda853;
+  --color-accent: #f3f3e0;
+  --color-primary--dark: #183b4e;
+  --color-black: #000;
+  --color-white: #fff;
+  --color-grey--light: #fafafa;
+  --color-grey--dark: #ccc;
+  --color-error: #f33;
+  --color-error--dark: #e20000;
+  --color-warn: #fafa08;
+  --font-size-heading--primary: 2.5rem;
+  --font-size-heading--secondary: 2rem;
+  --font-size-large: 1.4rem;
+  --font-size-standard: 1rem;
+  --font-size-small: 0.8rem;
+  --line-height-standard: 1.4;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  line-height: var(--line-height-standard);
+  font-size: var(--font-size-standard);
+  font-family:
+    "IBM Plex Sans",
+    "IBM Plex Sans",
+    "Noto Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    "Helvetica Neue",
+    "Hiragino Kaku Gothic ProN",
+    "ヒラギノ角ゴ ProN W3",
+    "Yu Gothic UI",
+    "Yu Gothic",
+    "游ゴシック体",
+    "Meiryo UI",
+    Meiryo,
+    "メイリオ",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji",
+    sans-serif,
+    system-ui;
+  font-weight: 400;
+}
+
+body {
+  background-color: var(--color-accent);
+}
+
+a {
+  text-decoration: none;
+}
+
+.heading--primary {
+  font-size: var(--font-size-heading--secondary);
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+.not-visible {
+  visibility: hidden;
+}
+
+@media (min-width: 450px) {
+  .heading--primary {
+    font-size: var(--font-size-heading--primary);
+  }
+}

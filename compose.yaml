@@ -1,0 +1,112 @@
+services:
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=waitlist
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d waitlist"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
+  migrations:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env.development
+    environment:
+      - DB_HOST=db
+    command: sh -c "npx knex migrate:latest"
+
+  app:
+    build:
+      context: .
+      args:
+        NODE_ENV: dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.development
+    environment:
+      - NODE_ENV=dev
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    command: npm run dev
+    volumes:
+      - ./:/usr/local/app
+    depends_on:
+      migrations:
+        condition: service_started
+      redis:
+        condition: service_healthy
+
+  checkin-expired-worker:
+    build:
+      context: .
+    restart: unless-stopped
+    env_file:
+      - .env.development
+    environment:
+      - NODE_ENV=dev
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    command: node ./workers/checkin-expired-worker.js
+    depends_on:
+      migrations:
+        condition: service_started
+      redis:
+        condition: service_healthy
+
+  dequeue-worker:
+    build:
+      context: .
+    restart: unless-stopped
+    env_file:
+      - .env.development
+    environment:
+      - NODE_ENV=dev
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    command: node ./workers/dequeue-worker.js
+    depends_on:
+      migrations:
+        condition: service_started
+      redis:
+        condition: service_healthy
+
+  seat-expired-worker:
+    build:
+      context: .
+    restart: unless-stopped
+    env_file:
+      - .env.development
+    environment:
+      - NODE_ENV=dev
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    command: node ./workers/seat-expired-worker.js
+    depends_on:
+      migrations:
+        condition: service_started
+      redis:
+        condition: service_healthy
+

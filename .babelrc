@@ -1,0 +1,13 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current" // Target your current Node.js version
+        },
+        "modules": false //
+      }
+    ]
+  ]
+}

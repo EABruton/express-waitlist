@@ -1,0 +1,25 @@
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-group__label {
+  font-weight: 600;
+}
+
+.field-group__text-input {
+  border-radius: 6px;
+  padding: 6px 8px;
+  transition: 200ms;
+  border: none;
+}
+
+.field-group__text-input:is(:focus) {
+  /* eslint-disable-next-line css/use-baseline */
+  outline: none;
+}
+
+.form--secondary .field-group__text-input:is(:focus, :hover) {
+  box-shadow: 3px 3px var(--color-secondary);
+}

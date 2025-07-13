@@ -1,0 +1,28 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{{title}}}</title>
+    <link rel="stylesheet" href="/dist/css/main.css" />
+    {{#if styles}}
+      {{#each styles}}
+        <link rel="stylesheet" href="{{this}}" />
+      {{/each}}
+    {{/if}}
+
+    <script>
+      window.__SERVER_BASE_URL__ = "{{serverBaseURL}}";
+    </script>
+  </head>
+  <body>
+    <div class="centered-content">
+      {{{body}}}
+    </div>
+
+    {{#if scripts}}
+      {{#each scripts}}
+        <script type="module" src="{{this}}"></script>
+      {{/each}}
+    {{/if}}
+  </body>
+</html>

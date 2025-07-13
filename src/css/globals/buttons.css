@@ -1,0 +1,70 @@
+.button {
+  transition: 300ms;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 0;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+  padding: 6px 8px;
+}
+
+.button:is(:focus, :hover) {
+  /* eslint-disable-next-line css/use-baseline */
+  outline: none;
+  transform: scale(1.05);
+}
+
+.button:disabled {
+  background-color: var(--color-white);
+  color: var(--color-grey--dark);
+  border-color: var(--color-grey--dark);
+  pointer-events: none;
+}
+
+.button--primary {
+  background-color: var(--color-accent);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.button--primary:is(:hover, :focus) {
+  background-color: var(--color-primary);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.button--secondary {
+  background-color: var(--color-accent);
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.button--secondary:is(:hover, :focus) {
+  background-color: var(--color-secondary);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.button--secondary--inverted {
+  background-color: var(--color-secondary);
+  border-color: var(--color-accent);
+  color: var(--color-black);
+  /* color: var(--color-accent); */
+}
+
+.button--secondary--inverted:is(:hover, :focus) {
+  background-color: var(--color-accent);
+  border-color: var(--color-secondary);
+}
+
+/* the below statuses are for rendering different text based on status of submission */
+.button[data-status="active"] :is(.button-text--pending, .button-text--error) {
+  display: none;
+}
+
+.button[data-status="error"] :is(.button-text--active, .button-text--pending) {
+  display: none;
+}
+
+.button[data-status="pending"] :is(.button-text--active, .button-text--error) {
+  display: none;
+}

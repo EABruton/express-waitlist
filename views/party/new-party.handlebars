@@ -1,0 +1,53 @@
+<main class="main--centered main--primary" id="waitlist-join-page">
+  <h1 class="heading heading--primary">Join the Waitlist</h1>
+  <form
+    id="waitlist-join-form"
+    class="form--secondary waitlist-form"
+    method="POST"
+  >
+    <div class="field-group waitlist-form__field-group">
+      <label for="name" class="field-group__label waitlist-form__field-label">
+        Party Name:
+      </label>
+      <input
+        required
+        placeholder="Your party name..."
+        type="text"
+        name="name"
+        id="name"
+        data-testid="party-name"
+        class="field-group__text-input waitlist-form__input"
+        maxLength="{{maxPartyNameLength}}"
+      />
+    </div>
+    <div class="field-group waitlist-form__field-group">
+      <label for="size" class="field-group__label waitlist-form__field-label">
+        Party Size:
+      </label>
+      <input
+        required
+        placeholder="Number of party members..."
+        type="number"
+        min="1"
+        max="{{maxSeatCount}}"
+        name="size"
+        id="size"
+        data-testid="party-size"
+        class="field-group__text-input waitlist-form__input"
+        aria-describedby="party-size-limits"
+      />
+      <p id="party-size-limits">Please note that the maximum number of seats is
+        10</p>
+    </div>
+    <button
+      type="submit"
+      data-status="active"
+      class="button button--secondary--inverted"
+      data-testid="join-waitlist-button"
+    >
+      <span class="button-text--active">Join Waitlist</span>
+      <span class="button-text--pending">Submitting...</span>
+      <span class="button-text--error">Something went wrong!</span>
+    </button>
+  </form>
+</main>

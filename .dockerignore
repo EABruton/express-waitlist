@@ -1,0 +1,13 @@
+node_modules
+tests
+cypress
+
+public/javascript
+public/stylesheets
+
+.env*
+*.md
+
+eslint.config.js
+cypress.config.js
+jest.config.j
