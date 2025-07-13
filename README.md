@@ -138,6 +138,7 @@ state are non-functional (in production).
 
 
 [Development setup]
+
 The first two steps are required because the the development environment uses a
 mount (allowing changes on the host to be reflected in the container), and the
 `COPY` step of the Dockerfile will override anything built within the
@@ -175,6 +176,7 @@ npm run docker:dev:up
 The following section details how to run your tests.
 
 **WARNING:**
+
 For end-to-end tests, there is a port-mapping tied to 5432 and cypress is ran
 on the host. For this reason, you should make sure you do not have postgresql
 running locally. This will make sure that when cypress uses tasks to setup a
@@ -232,7 +234,7 @@ There should be three .env files as follows:
 - **.env.development**: this is used whenever the `NODE_ENV` is set to `dev`
 - **.env.test**: this is used whenever the `NODE_ENV` is set to `test`
 - **.env.production**: this is used whenever the `NODE_ENV` is set to `prod`
-- **.env**: this is used solely by the production compose file to provide database environmental variables
+- **.env**: this is used solely by the `production` compose file to provide database environmental variables
 
 The application environmental variable file should have the following variables:
 
