@@ -40,7 +40,8 @@ Below is the logic flow for each worker.
 
 1. If the party does not exist, set them to queued, schedule a dequeue job, and save their party ID and position in queue to the session
 
-- Note: we don't immediately set them to checking-in, as this could cause issues with multiple parties hitting the check-in button at the same time
+- Note: we don't immediately set them to checking-in, as this could cause
+issues with multiple parties hitting the check-in button at the same time
 
 2. Direct the party to the party status page (where they can view their queue)
 3. Connect to redis channels to listen to various workers' message (see the above worker sections)

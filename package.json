@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
+    "docker:dev:up": "docker compose -f compose.dev.yaml up --build",
+    "docker:dev:down": "docker compose -f compose.dev.yaml down",
+    "docker:test:up": "docker compose -f compose.test.yaml up --build",
+    "docker:test:down": "docker compose -f compose.test.yaml down",
+    "docker:prod:up": "docker compose -f compose.prod.yaml up -d",
+    "docker:prod:down": "docker compose -f compose.prod.yaml down",
     "test": "NODE_OPTIONS='--experimental-vm-modules' NODE_ENV=test jest",
     "test:integration": "NODE_OPTIONS='--experimental-vm-modules' NODE_ENV=test jest tests/integration",
     "build": "webpack --config webpack.config.js",

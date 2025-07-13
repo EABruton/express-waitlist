@@ -3,37 +3,41 @@ FROM node:latest AS base
 
 WORKDIR /usr/local/app
 
-
-FROM base AS builder
-
-ARG NODE_ENV=dev
-ENV NODE_ENV=$NODE_ENV
-
-# install packages
 COPY package*.json ./
-RUN echo "Installing with NODE_ENV=$NODE_ENV" && \
-  if [ "$NODE_ENV" = "production" ]; then \
-    npm ci --omit=dev; \
-  else \
-    npm ci; \
-  fi
 
-# bundle javascript / css
-COPY src/ src/
+# === Development Stage ===
+FROM base AS dev
+ENV NODE_ENV=dev
+RUN npm ci
+COPY . .
+
+
+# === Build Stage ===
+FROM base AS builder
+ENV NODE_ENV=production
+RUN npm ci --omit=dev
+
+COPY src/ ./src/
 COPY webpack.config.js ./
 COPY .babelrc ./
-COPY shared-constants/ src/js/shared-constants/
+
 RUN npm run build
 
 
-# main app
-FROM base AS runtime
+# === Test Build Stage ===
+FROM base AS test
+ENV NODE_ENV=test
 
-WORKDIR /usr/local/app
-
-COPY . ./
+COPY . .
 COPY --from=builder /usr/local/app/node_modules ./node_modules
-# only copy over the dist part, rather than the raw javascript / css
 COPY --from=builder /usr/local/app/public/dist ./public/dist
 
-EXPOSE 3000
+
+# === Runtime Image ===
+FROM base AS runtime
+ENV NODE_ENV=production
+
+COPY . .
+COPY --from=builder /usr/local/app/node_modules ./node_modules
+COPY --from=builder /usr/local/app/public/dist ./public/dist
+

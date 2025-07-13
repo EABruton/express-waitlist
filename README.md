@@ -111,43 +111,63 @@ For architectural decisions: see the `architecture-decisions.md` file.
 
 For a brief architecture overview: see the `architecture-overview.md` file.
 
-For setup and requirements, see the below sections.
+For setup, requirements, and running the application, see the below sections.
+
 
 ## Initial Setup / Requirements
 
 The following section details the initial setup and requirement instructions.
 For instructions on running the application, see the next section.
 
-Before you start the application, you will need to create an env file.
-See the [section on env files](#env-files) for details.
+Before you start the application, you will need to create an env file. See the
+[section on env files](#env-files) for details.
 
-You will also need to have [Docker](https://www.docker.com/) installed and running
+You will also need to have [Docker](https://www.docker.com/) installed and
+running
+
+
+## Running
 
 **NOTE**
 
-If you plan to run any of the automated testing steps, you'll need to install npm packages via:
+The production compose file requires serving over HTTPS, and so instructions
+are not detailed on the run process.
+
+Without HTTPS enabled, the cookie sessions necessary for saving the client's
+state are non-functional (in production).
+
+
+[Development setup]
+The first two steps are required because the the development environment uses a
+mount (allowing changes on the host to be reflected in the container), and the
+`COPY` step of the Dockerfile will override anything built within the
+container.
+
+1. Set your environment:
+
+```bash
+export NODE_ENV=dev
+```
+
+2. Install node modules:
 
 ```bash
 npm ci
 ```
 
-
-## Running
-
-The following set of instructions detail how to start the application in a `development` environment.
-
-If you are running the application in a container:
-
-1. Startup docker
-2. Compose via the following command
+3. Run your build command to minify and transpile the frontend code:
 
 ```bash
-docker compose up
+npm run build
 ```
 
-3. Visit the site (default URL will be `http://localhost:3000`)
+4. Run the following npm script:
 
-Alternatively, if you plan to host the application outside of a container, you can run:
+```bash
+npm run docker:dev:up
+```
+
+5. Visit the site (default URL will be `http://localhost:3000`)
 
 
 ## Testing
@@ -155,16 +175,25 @@ Alternatively, if you plan to host the application outside of a container, you c
 The following section details how to run your tests.
 
 **WARNING:**
-For end-to-end tests, there is a port-mapping tied to 5432 and cypress is ran on the host. For this reason, you should make sure you do not have postgresql running locally. This will make sure that when cypress uses tasks to setup a proper environment per tests, it affects the container database and not the local one.
+For end-to-end tests, there is a port-mapping tied to 5432 and cypress is ran
+on the host. For this reason, you should make sure you do not have postgresql
+running locally. This will make sure that when cypress uses tasks to setup a
+proper environment per tests, it affects the container database and not the
+local one.
 
-1. Set your NODE_ENV, then run the test compose file.
+1. Install node modules (allowing you to use jest and cypress):
 
 ```bash
-export NODE_ENV=test
-docker compose -f compose.test.yaml
+npm ci
 ```
 
-2. Run your integration tests.
+2. Run the following npm script:
+
+```bash
+npm run docker:test:up
+```
+
+3. Run your integration tests.
 
 If running integration tests:
 
@@ -172,7 +201,7 @@ If running integration tests:
 npm run test:integration
 ```
 
-3. Run your end-to-end tests:
+4. Run your end-to-end tests:
 
 via the GUI
 
@@ -190,7 +219,9 @@ npm run cy:test
 
 The docker container compose starts redis, but does not start any workers.
 
-The reasoning for this is that in order to run end-to-end tests in a reasonable time period, cypress tasks needs control over the scheduling of when certain worker tasks would run.
+The reasoning for this is that in order to run end-to-end tests in a reasonable
+time period, cypress tasks needs control over the scheduling of when certain
+worker tasks would run.
 
 
 ## Env Files
@@ -201,8 +232,9 @@ There should be three .env files as follows:
 - **.env.development**: this is used whenever the `NODE_ENV` is set to `dev`
 - **.env.test**: this is used whenever the `NODE_ENV` is set to `test`
 - **.env.production**: this is used whenever the `NODE_ENV` is set to `prod`
+- **.env**: this is used solely by the production compose file to provide database environmental variables
 
-The environmental variable file should have the following variables:
+The application environmental variable file should have the following variables:
 
 - **DB_HOST**: the host to use for the database (ex: `localhost`)
 - **DB_PORT**: the port to use for the database (ex: `5432`)
@@ -216,6 +248,12 @@ The environmental variable file should have the following variables:
 - **SESSION_KEY**: the session key used to sign cookie sessions (ex: `secret-session-key`). This should be a secure, hard-to-guess value.
 - **REDIS_PORT**: the port the redis service is set to run on (ex: `6379`)
 
+If you are running the `production` compose file, the `.env` file will need the following variables:
+
+- **POSTGRES_USER**: set this equal to the `DB_USER` environmental's value
+- **POSTGRES_PASSWORD**: set this equal to the `DB_PASSWORD` environmental's value
+- **POSTGRES_DB**: set this equal to the `DB_NAME` environmental's value
+
 Below is an example file:
 
 ```
@@ -225,7 +263,7 @@ DB_USER=postgres_test
 DB_PASSWORD=postgres_test
 DB_NAME=waitlist_test
 
-CHECKIN_EXPIRY_SECONDS=60
+CHECKIN_EXPIRY_SECONDS=30
 MAX_SEATS=10
 SERVICE_TIME_SECONDS=3
 
@@ -234,12 +272,6 @@ SESSION_KEY=abc123
 REDIS_PORT=6379
 ```
 
-**You should ensure that your env file lines up with the relevant docker compose file you wish to deploy.**
+**You should ensure that your env file lines up with the relevant docker
+compose file you wish to deploy with.**
 
-For example, in the `compose.yaml`, the following environmental variables need to be matched in your .env.development file:
-
-- **POSTGRES_USER**: maps to `DB_USER`
-- **POSTGRES_PASSWORD**: maps to `DB_PASSWORD`
-- **POSTGRES_DB**: maps to `DB_NAME`
-
-And in your associated .env file, you should also make sure that the ports line up with the service ports as described in the compose file (ex: REDIS_PORT should match what is in the compose file).

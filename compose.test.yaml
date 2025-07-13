@@ -39,20 +39,16 @@ services:
   app:
     build:
       context: .
-      args:
-        NODE_ENV: test
+      target: test
     restart: unless-stopped
     ports:
       - "3000:3000"
     env_file:
       - .env.test
     environment:
-      - NODE_ENV=test
       - DB_HOST=db
       - REDIS_HOST=redis
-    command: npm run dev
-    volumes:
-      - ./:/usr/local/app
+    command: npm run server
     depends_on:
       migrations:
         condition: service_started

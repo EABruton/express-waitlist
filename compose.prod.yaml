@@ -39,15 +39,13 @@ services:
   app:
     build:
       context: .
-      args:
-        NODE_ENV: prod
+      target: runtime
     restart: unless-stopped
     ports:
       - "3000:3000"
     env_file:
       - .env.production
     environment:
-      - NODE_ENV=prod
       - DB_HOST=db
       - REDIS_HOST=redis
     command: npm run server
@@ -60,11 +58,11 @@ services:
   checkin-expired-worker:
     build:
       context: .
+      target: runtime
     restart: unless-stopped
     env_file:
       - .env.production
     environment:
-      - NODE_ENV=prod
       - DB_HOST=db
       - REDIS_HOST=redis
     command: node ./workers/checkin-expired-worker.js
@@ -77,11 +75,11 @@ services:
   dequeue-worker:
     build:
       context: .
+      target: runtime
     restart: unless-stopped
     env_file:
       - .env.production
     environment:
-      - NODE_ENV=prod
       - DB_HOST=db
       - REDIS_HOST=redis
     command: node ./workers/dequeue-worker.js
@@ -94,11 +92,11 @@ services:
   seat-expired-worker:
     build:
       context: .
+      target: runtime
     restart: unless-stopped
     env_file:
       - .env.production
     environment:
-      - NODE_ENV=prod
       - DB_HOST=db
       - REDIS_HOST=redis
     command: node ./workers/seat-expired-worker.js
